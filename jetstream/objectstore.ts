@@ -773,15 +773,17 @@ export class ObjectStoreImpl implements ObjectStore {
     } catch (err) {
       return Promise.reject(err);
     }
-    const sc = Object.assign({}, opts) as StreamConfig;
+    const max_age = opts?.ttl || 0;
+    delete opts.ttl;
+    const sc = Object.assign({ max_age }, opts) as StreamConfig;
     sc.name = this.stream;
+    sc.allow_direct = true;
     sc.allow_rollup_hdrs = true;
     sc.discard = DiscardPolicy.New;
     sc.subjects = [`$O.${this.name}.C.>`, `$O.${this.name}.M.>`];
     if (opts.placement) {
       sc.placement = opts.placement;
     }
-
     try {
       await this.jsm.streams.info(sc.name);
     } catch (err) {

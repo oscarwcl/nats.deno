@@ -1244,7 +1244,7 @@ export type ObjectStoreStatus = {
 export type ObjectStoreInfo = ObjectStoreStatus;
 export type ObjectStoreOptions = {
   description?: string;
-  ttl?: Nanos;
+  "ttl"?: Nanos;
   storage: StorageType;
   replicas: number;
   "max_bytes": number;
